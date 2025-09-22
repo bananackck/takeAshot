@@ -1,35 +1,86 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
+import styled from "styled-components";
+
+const Button = styled.button`
+  background-color: pink;
+`;
+
+const Video = styled.video`
+  width: 400px;
+  height: 300px;
+  background-color: black;
+`;
+const VideoPlacholder = styled.div`
+  width: 400px;
+  height: 300px;
+  background-color: gray;
+`;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const [camera, setCamera] = useState<boolean>(true);
+
+  function cameraOn() {
+    cameraOff();
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert("사용할 수 있는 카메라가 없습니다.");
+    } else {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((mediaStream) => {
+          setStream(mediaStream);
+          const video: HTMLVideoElement | null =
+            document.querySelector("#cameraview");
+          if (video) {
+            video.srcObject = mediaStream;
+            video.play();
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  }
+  useEffect(() => {
+    cameraOn();
+    console.log(camera);
+  }, []);
+
+  function cameraOff() {
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+      setStream(null);
+      const video: HTMLVideoElement | null =
+        document.querySelector("#cameraview");
+      if (video) {
+        video.srcObject = null;
+      }
+    }
+  }
+
+  function cameraHandle() {
+    setCamera((prev) => {
+      const next = !prev;
+      if (next) {
+        cameraOn();
+      } else {
+        cameraOff();
+      }
+      return next;
+    });
+  }
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {camera ? (
+          <Video id="cameraview"></Video>
+        ) : (
+          <VideoPlacholder></VideoPlacholder>
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Button onClick={cameraHandle}>Camera</Button>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
