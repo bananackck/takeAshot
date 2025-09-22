@@ -10,6 +10,9 @@ const Video = styled.video`
   width: 400px;
   height: 300px;
   background-color: black;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+  -moz-transform: rotateY(180deg); /* Firefox */
 `;
 const VideoPlacholder = styled.div`
   width: 400px;
@@ -71,7 +74,15 @@ function App() {
 
   return (
     <>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+          height: "320px",
+          width: "420px",
+        }}
+      >
         {camera ? (
           <Video id="cameraview"></Video>
         ) : (
