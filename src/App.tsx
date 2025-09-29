@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./App.css";
 import styled from "styled-components";
 
@@ -24,6 +24,9 @@ function App() {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [camera, setCamera] = useState<boolean>(true);
 
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [cameraId, setCameraId] = useState(0); // 0, 1, 2 중 하나
+
   function cameraOn() {
     cameraOff();
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -33,8 +36,7 @@ function App() {
         .getUserMedia({ video: true })
         .then((mediaStream) => {
           setStream(mediaStream);
-          const video: HTMLVideoElement | null =
-            document.querySelector("#cameraview");
+          const video = videoRefs.current[cameraId];
           if (video) {
             video.srcObject = mediaStream;
             video.play();
@@ -72,6 +74,15 @@ function App() {
     });
   }
 
+  function changeCameraHandle() {
+    if (!camera) return;
+    setCameraId((prev) => {
+      const next = (prev + 1) % 3; // 0, 1, 2 순환
+      cameraOn();
+      return next;
+    });
+  }
+
   return (
     <>
       <div
@@ -84,12 +95,27 @@ function App() {
         }}
       >
         {camera ? (
-          <Video id="cameraview"></Video>
+          <>
+            {[0, 1, 2].map((i) => (
+              <Video
+                key={i}
+                id={`cameraview_${i + 1}`}
+                ref={(el) => {
+                  videoRefs.current[i] = el;
+                }}
+                autoPlay
+                playsInline
+                muted
+                style={{ width: "200px" }}
+              />
+            ))}
+          </>
         ) : (
           <VideoPlacholder></VideoPlacholder>
         )}
       </div>
       <Button onClick={cameraHandle}>Camera</Button>
+      <Button onClick={changeCameraHandle}>Change Camera</Button>
     </>
   );
 }
