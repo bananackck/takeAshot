@@ -16,3 +16,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+@utility video-filter {
+  @apply -scale-x-100 brightness-120 -hue-rotate-10 saturate-90;
+}

@@ -13,7 +13,6 @@ export const useStore = create<AppState>((set) => ({
   capturedPhotos: [],
   setSelectedFrame: (frame) => set({ selectedFrame: frame }),
   addPhoto: (photo) => set((state) => {
-    if (state.capturedPhotos.length >= 4) return state;
     return { capturedPhotos: [...state.capturedPhotos, photo] };
   }),
   clearPhotos: () => set({ capturedPhotos: [] }),

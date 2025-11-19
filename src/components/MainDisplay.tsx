@@ -45,14 +45,14 @@ export const MainDisplay = () => {
   };
 
   return (
-    <div className="flex-1 bg-gray-200 relative flex items-center justify-center overflow-hidden">
+    <div className="aspect-4/3 bg-gray-200 relative flex items-center justify-center overflow-hidden">
       {/* Camera Viewport */}
       <video 
         ref={videoRef} 
         autoPlay 
         playsInline 
         muted
-        className="w-full h-full object-cover -scale-x-100 brightness-120 -hue-rotate-10 saturate-90"
+        className="w-full aspect-4/3 object-cover video-filter"
       />
 
       {/* Shutter Button Overlay */}
