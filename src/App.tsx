@@ -2,6 +2,7 @@ import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { MainDisplay } from './components/MainDisplay';
 import { BottomBar } from './components/BottomBar';
+import { Frame } from './components/Frame';
 
 function App() {
   return (
@@ -27,12 +28,18 @@ function App() {
         </div>
 
         {/* Right Sidebar */}
+        <Sidebar title="프레임" ys={0}>
+           {/* Placeholder items for frame selection */}
+           <Frame />
+           <Frame />
+           <Frame />
+           <Frame />
+        </Sidebar>
+
         <Sidebar title="프레임 선택">
            {/* Placeholder items for frame selection */}
-           <div className="h-24 bg-gray-200 rounded-md"></div>
-           <div className="h-24 bg-gray-200 rounded-md"></div>
-           <div className="h-24 bg-gray-200 rounded-md"></div>
-           <div className="h-24 bg-gray-200 rounded-md"></div>
+           <Frame />
+           <Frame />
         </Sidebar>
       </div>
     </div>
