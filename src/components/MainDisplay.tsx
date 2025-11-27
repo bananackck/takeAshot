@@ -39,7 +39,12 @@ export const MainDisplay = () => {
       canvas.height = videoRef.current.videoHeight;
       const ctx = canvas.getContext('2d');
       try {
-        ctx?.drawImage(videoRef.current, 0, 0);
+        if (ctx) {
+          ctx.filter = 'brightness(1.2) hue-rotate(-10deg) saturate(0.9)';
+          ctx.translate(canvas.width, 0);
+          ctx.scale(-1, 1);
+          ctx.drawImage(videoRef.current, 0, 0);
+        }
         const photoUrl = canvas.toDataURL('image/png');
         addPhoto({idx: capturedPhotoIdx, src: photoUrl});
         setCapturedPhotoIdx(capturedPhotoIdx + 1);

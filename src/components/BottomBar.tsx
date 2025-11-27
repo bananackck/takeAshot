@@ -29,7 +29,7 @@ export const BottomBar = () => {
           <img 
             src={photo.src} 
             alt={`Captured photo ${photo.idx + 1}`} 
-            className="w-full h-full object-cover video-filter"
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200" />
           { photo.selectedIdx && (

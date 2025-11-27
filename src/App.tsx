@@ -3,8 +3,12 @@ import { Sidebar } from './components/Sidebar';
 import { MainDisplay } from './components/MainDisplay';
 import { BottomBar } from './components/BottomBar';
 import { Frame } from './components/Frame';
+import { useRef } from 'react';
+import { handleDownload } from './utils/handleDownload';
 
 function App() {
+  const divRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className="flex flex-col h-screen bg-white font-sans text-gray-900">
       <Header />
@@ -29,11 +33,19 @@ function App() {
 
         {/* Right Sidebar */}
         <Sidebar title="프레임" ys={0}>
-           {/* Placeholder items for frame selection */}
+          <div
+            ref={divRef}>
            <Frame idx={1} />
            <Frame idx={2} />
            <Frame idx={3} />
            <Frame idx={4} />
+          </div>
+           <button
+            className="cursor-pointer w-full bg-blue-500 text-white py-2 rounded-md"
+            onClick={() => {
+              handleDownload(divRef);
+            }}
+           >다운로드</button>
         </Sidebar>
 
         <Sidebar title="프레임 선택">
