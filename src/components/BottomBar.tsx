@@ -34,7 +34,7 @@ export const BottomBar = () => {
           />
           <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200" />
           { photo.selectedIdx && (
-            <div className="absolute bottom-2 right-2 text-white z-10">{photo.selectedIdx}</div>
+            <div className="absolute top-2 right-2 text-white font-bold rounded-full bg-black w-8 h-8 flex items-center justify-center z-10">{photo.selectedIdx}</div>
           )}
         </div>
       ))}
