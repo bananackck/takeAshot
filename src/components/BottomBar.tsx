@@ -1,18 +1,41 @@
-import { useStore } from '../store';
+import { usePhotoListStore, usePhotoStore } from '../store/photoStore';
+import { useState } from 'react';
 
 export const BottomBar = () => {
-  const { capturedPhotos } = useStore();
+  const { capturedPhotos } = usePhotoListStore();
+  const { setSelectedIdx } = usePhotoStore();
+  const [ idx, setIdx ] = useState<number>(1);
 
   return (
     <div className="h-48 w-full bg-white border-t border-gray-200 p-4 flex items-center gap-4 overflow-x-auto">
       {capturedPhotos.map((photo, index) => (
-        <div key={index} className="h-full min-w-[120px] aspect-4/3 shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-300 relative group">
-           <img 
-             src={photo} 
-             alt={`Captured photo ${index + 1}`} 
-             className="w-full h-full object-cover video-filter"
-           />
-           <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200" />
+        <div key={index} 
+        className="cursor-pointer h-full min-w-[120px] aspect-4/3 shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-300 relative group"
+        onClick={() => {
+          console.log(photo.idx);
+          if(photo.selectedIdx !== undefined){
+            console.log("here");
+            if(photo.selectedIdx < idx){
+              setIdx(photo.selectedIdx);
+            }
+            photo.setSelectedIdx(undefined);
+          }
+          else{
+            photo.setSelectedIdx(idx);
+            setIdx(idx + 1);
+            console.log(photo);
+          }
+        }}
+        >
+          <img 
+            src={photo.src} 
+            alt={`Captured photo ${photo.idx + 1}`} 
+            className="w-full h-full object-cover video-filter"
+          />
+          <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200" />
+          { photo.selectedIdx && (
+            <div className="absolute bottom-2 right-2 text-white z-10">{photo.selectedIdx}</div>
+          )}
         </div>
       ))}
       {capturedPhotos.length === 0 && (

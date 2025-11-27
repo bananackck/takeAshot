@@ -1,11 +1,12 @@
 import { ShutterButton } from './ShutterButton';
-import { useStore } from '../store';
+import { usePhotoListStore } from '../store/photoStore';
 import { useEffect, useRef, useState } from 'react';
 
 export const MainDisplay = () => {
-  const { addPhoto } = useStore();
+  const { addPhoto } = usePhotoListStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [capturedPhotoIdx, setCapturedPhotoIdx] = useState<number>(0);
 
   useEffect(() => {
     const startCamera = async () => {
@@ -14,6 +15,7 @@ export const MainDisplay = () => {
         setStream(mediaStream);
         if (videoRef.current) {
           videoRef.current.srcObject = mediaStream;
+          setCapturedPhotoIdx(0);
         }
       } catch (err) {
         console.error("Error accessing camera:", err);
@@ -36,10 +38,14 @@ export const MainDisplay = () => {
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
       const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(videoRef.current, 0, 0);
+      try {
+        ctx?.drawImage(videoRef.current, 0, 0);
         const photoUrl = canvas.toDataURL('image/png');
-        addPhoto(photoUrl);
+        addPhoto({idx: capturedPhotoIdx, src: photoUrl});
+        setCapturedPhotoIdx(capturedPhotoIdx + 1);
+      } catch (err) {
+        console.error("Error taking photo:", err);
+        alert("사진을 저장할 수 없습니다.");
       }
     }
   };

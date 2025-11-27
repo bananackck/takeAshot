@@ -30,16 +30,17 @@ function App() {
         {/* Right Sidebar */}
         <Sidebar title="프레임" ys={0}>
            {/* Placeholder items for frame selection */}
-           <Frame />
-           <Frame />
-           <Frame />
-           <Frame />
+           <Frame idx={1} />
+           <Frame idx={2} />
+           <Frame idx={3} />
+           <Frame idx={4} />
         </Sidebar>
 
         <Sidebar title="프레임 선택">
            {/* Placeholder items for frame selection */}
-           <Frame />
-           <Frame />
+           <div className="relative cursor-pointer overflow-hidden">
+            <img className="relative z-10" src="images/pink-cover.png" alt="frame pink" />
+           </div>
         </Sidebar>
       </div>
     </div>
