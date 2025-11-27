@@ -1,20 +1,20 @@
-import { usePhotoListStore } from '../store/photoStore';
+import { usePhotoListStore, type PhotoState } from '../store/photoStore';
 
 export const BottomBar = () => {
   const { capturedPhotos } = usePhotoListStore();
 
-  const handlePhotoClick = (photo: any) => {
-    if (photo.selectedIdx !== undefined) {
-      photo.setSelectedIdx(undefined);
+  const handlePhotoClick = (photo: PhotoState) => {
+    if (photo.frameId !== undefined) {
+      photo.setFrameId(undefined);
     } else {
       const usedIndices = capturedPhotos
-        .map(p => p.selectedIdx)
+        .map(p => p.frameId)
         .filter((idx): idx is number => idx !== undefined);
       
       const nextIndex = [1, 2, 3, 4].find(idx => !usedIndices.includes(idx));
       
       if (nextIndex !== undefined) {
-        photo.setSelectedIdx(nextIndex);
+        photo.setFrameId(nextIndex);
       }
     }
   };
@@ -32,8 +32,8 @@ export const BottomBar = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200" />
-          { photo.selectedIdx && (
-            <div className="absolute top-2 right-2 text-white font-bold rounded-full bg-black w-8 h-8 flex items-center justify-center z-10">{photo.selectedIdx}</div>
+          { photo.frameId && (
+            <div className="absolute top-2 right-2 text-white font-bold rounded-full bg-black w-8 h-8 flex items-center justify-center z-10">{photo.frameId}</div>
           )}
         </div>
       ))}

@@ -7,6 +7,7 @@ export const MainDisplay = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [capturedPhotoIdx, setCapturedPhotoIdx] = useState<number>(0);
+  const [shotCnt, setShotCnt] = useState<number>(0);
 
   useEffect(() => {
     const startCamera = async () => {
@@ -46,7 +47,10 @@ export const MainDisplay = () => {
           ctx.drawImage(videoRef.current, 0, 0);
         }
         const photoUrl = canvas.toDataURL('image/png');
-        addPhoto({idx: capturedPhotoIdx, src: photoUrl});
+        addPhoto({ idx: capturedPhotoIdx, src: photoUrl, frameId: shotCnt < 4 ? shotCnt+1 : undefined });
+        if(shotCnt < 4){
+          setShotCnt(shotCnt + 1);
+        }
         setCapturedPhotoIdx(capturedPhotoIdx + 1);
       } catch (err) {
         console.error("Error taking photo:", err);
@@ -56,18 +60,18 @@ export const MainDisplay = () => {
   };
 
   return (
-    <div className="aspect-4/3 bg-gray-200 relative flex items-center justify-center overflow-hidden">
+    <div className="relative flex items-center justify-center">
       {/* Camera Viewport */}
       <video 
         ref={videoRef} 
         autoPlay 
         playsInline 
         muted
-        className="w-full aspect-4/3 object-cover video-filter"
+        className="w-full max-w-[800px] aspect-4/3 object-cover video-filter"
       />
 
       {/* Shutter Button Overlay */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+      <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 z-10">
         <ShutterButton onClick={handleTakePhoto} />
       </div>
     </div>

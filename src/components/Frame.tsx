@@ -4,7 +4,7 @@ export const Frame = ({idx}: {idx?: number}) => {
     const { capturedPhotos } = usePhotoListStore();
 
     const src = capturedPhotos.filter((photo)=>{
-        return photo.selectedIdx ===idx;
+        return photo.frameId ===idx;
     })[0]?.src;
 
     return (

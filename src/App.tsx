@@ -13,18 +13,11 @@ function App() {
     <div className="flex flex-col h-screen bg-white font-sans text-gray-900">
       <Header />
       
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left Sidebar */}
-        <Sidebar title="프레임 선택">
-          {/* Placeholder items for frame selection */}
-          <div className="h-24 bg-gray-200 rounded-md"></div>
-          <div className="h-24 bg-gray-200 rounded-md"></div>
-          <div className="h-24 bg-gray-200 rounded-md"></div>
-          <div className="h-24 bg-gray-200 rounded-md"></div>
-        </Sidebar>
+      <div className="flex flex-1 overflow-hidden p-4">
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-w-0">
+          <div className="h-24"></div>
           <MainDisplay />
           
           {/* Bottom Bar for captured photos */}
