@@ -1,31 +1,30 @@
-import { usePhotoListStore, usePhotoStore } from '../store/photoStore';
-import { useState } from 'react';
+import { usePhotoListStore } from '../store/photoStore';
 
 export const BottomBar = () => {
   const { capturedPhotos } = usePhotoListStore();
-  const { setSelectedIdx } = usePhotoStore();
-  const [ idx, setIdx ] = useState<number>(1);
+
+  const handlePhotoClick = (photo: any) => {
+    if (photo.selectedIdx !== undefined) {
+      photo.setSelectedIdx(undefined);
+    } else {
+      const usedIndices = capturedPhotos
+        .map(p => p.selectedIdx)
+        .filter((idx): idx is number => idx !== undefined);
+      
+      const nextIndex = [1, 2, 3, 4].find(idx => !usedIndices.includes(idx));
+      
+      if (nextIndex !== undefined) {
+        photo.setSelectedIdx(nextIndex);
+      }
+    }
+  };
 
   return (
     <div className="h-48 w-full bg-white border-t border-gray-200 p-4 flex items-center gap-4 overflow-x-auto">
       {capturedPhotos.map((photo, index) => (
         <div key={index} 
         className="cursor-pointer h-full min-w-[120px] aspect-4/3 shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-300 relative group"
-        onClick={() => {
-          console.log(photo.idx);
-          if(photo.selectedIdx !== undefined){
-            console.log("here");
-            if(photo.selectedIdx < idx){
-              setIdx(photo.selectedIdx);
-            }
-            photo.setSelectedIdx(undefined);
-          }
-          else{
-            photo.setSelectedIdx(idx);
-            setIdx(idx + 1);
-            console.log(photo);
-          }
-        }}
+        onClick={() => handlePhotoClick(photo)}
         >
           <img 
             src={photo.src} 
