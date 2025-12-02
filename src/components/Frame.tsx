@@ -5,14 +5,19 @@ interface FrameProps {
   fType: string;
 }
 export const Frame = ({ id, fType }: FrameProps) => {
-  const { capturedPhotos } = usePhotoListStore();
+  const { capturedPhotos, setNextIndex } = usePhotoListStore();
 
   const src = capturedPhotos.filter((photo) => {
     return photo.frameId === id;
   })[0]?.src;
 
   return (
-    <div className="relative cursor-pointer overflow-hidden ">
+    <div
+      className="relative cursor-pointer overflow-hidden"
+      onClick={() => {
+        setNextIndex(id);
+      }}
+    >
       <img className="relative z-10" src={`images/${fType}`} alt="frame pink" />
       {src && (
         <img
