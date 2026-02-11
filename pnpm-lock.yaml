@@ -35,9 +35,6 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
-      styled-components:
-        specifier: ^6.1.19
-        version: 6.1.19(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@19.1.1)
@@ -1307,16 +1304,6 @@ packages:
         optional: true
       use-sync-external-store:
         optional: true
-
-
-snapshots:
-
-  '@emotion/is-prop-valid@1.2.2':
-    dependencies:
-      '@emotion/memoize': 0.8.1
-
-  '@emotion/memoize@0.8.1': {}
-
 
 snapshots:
 
